@@ -14,11 +14,37 @@ class Role(Enum):
     INTERN = auto()
 
 
+class Payroll:
+    """Basic representation of an employee payroll"""
+    __housing: float
+    __transport: float
+    __basic: float
+    __tax_percent: float = 2.5
+
+    def __init__(self, housing: float, transport: float, basic: float):
+        self.__housing = housing
+        self.__transport = transport
+        self.__basic = basic
+
+    def calculate_tax(self):
+        """calculates tax amount from the employee salary using the tax percent"""
+        pass
+
+    def calculate_gross(self):
+        """ calculates the total earnings of the employee for the month (before tax deduction)"""
+        pass
+
+    def calculate_net(self):
+        """calculates the total earning of an employee for the month (after tax deduction)"""
+        pass
+
+
 @dataclass
 class Employee(ABC):
     """Basic representation of an employee at the company"""
     __name: str
     __role: Role
+    payroll: Payroll
     __vacation_days: int = 25
 
     def getName(self) -> str:
@@ -83,7 +109,7 @@ class SalariedEmployee(Employee):
         return self.__monthly_salary
 
     def pay(self) -> None:
-        print(f"Paying Employee {self.getName()} a monthly salary {self.getMonthlySalary()}")
+        print(f"Paying Employee {self.getName()} a monthly salary {self.getMonthlySalary()} using payroll of {self.payroll.calculate_net()}")
 
 
 class Company:
